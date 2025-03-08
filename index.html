@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy or Sad</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #9CAF88; /* Sage Green */
+            color: #333;
+            overflow: hidden;
+        }
+        .words-container {
+            margin: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .word-box {
+            padding: 12px 18px;
+            margin: 10px;
+            background-color: #ffffff;
+            border: 2px solid #5F7A61;
+            border-radius: 8px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            color: #5F7A61;
+        }
+        .word-box:hover {
+            background-color: #5F7A61;
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+        .face-container {
+            margin-top: 20px;
+        }
+        .face-container img {
+            width: 150px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .heart {
+            position: absolute;
+            top: 0;
+            color: red;
+            font-size: 24px;
+            animation: fall 2s linear;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Click a word to see the reaction!</h1>
+    <div class="words-container" id="wordsContainer"></div>
+    <div class="face-container">
+        <img id="faceImage" src="C:/Users/varsh/Downloads/sadface.png" alt="Face">
+    </div>
+    
+    <script>
+        let words = ["varsha", "cricket", "dogs", "cuddles", "sleep", "shoes", "icecream", 
+                     "8am class", "summer", "bottle", "makeup", "chocolate", "spicy food", "fights", "assignments"];
+        const happyWords = new Set(["varsha", "cricket", "dogs", "cuddles", "sleep", "shoes", "icecream"]);
+        const wordsContainer = document.getElementById("wordsContainer");
+        const faceImage = document.getElementById("faceImage");
+        
+        // Shuffle words randomly
+        words = words.sort(() => Math.random() - 0.5);
+        
+        words.forEach(word => {
+            const wordBox = document.createElement("div");
+            wordBox.classList.add("word-box");
+            wordBox.textContent = word;
+            wordBox.addEventListener("click", () => {
+                if (happyWords.has(word)) {
+                    faceImage.src = "C:/Users/varsh/Downloads/happyface.png";
+                    faceImage.style.transform = "scale(1.1)";
+                    if (word === "varsha") {
+                        createHearts();
+                    }
+                } else {
+                    faceImage.src = "C:/Users/varsh/Downloads/sadface.png";
+                    faceImage.style.transform = "scale(1)";
+                }
+            });
+            wordsContainer.appendChild(wordBox);
+        });
+
+        function createHearts() {
+            for (let i = 0; i < 10; i++) {
+                const heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "❤️";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.top = "-10vh";
+                heart.style.animationDuration = (Math.random() * 2 + 1) + "s";
+                document.body.appendChild(heart);
+                setTimeout(() => {
+                    heart.remove();
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>
